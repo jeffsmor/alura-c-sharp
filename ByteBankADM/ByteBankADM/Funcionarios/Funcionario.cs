@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ByteBankADM.SistemaInterno;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ByteBankADM.Funcionarios
 {
-    public abstract class Funcionario
+    public abstract class Funcionario : IBonus
     {
         public static int TotalDeFuncionarios { get; private set; }
         public string? Nome { get; set; }
