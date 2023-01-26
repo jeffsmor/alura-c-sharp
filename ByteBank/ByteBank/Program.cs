@@ -1,6 +1,9 @@
-﻿using ByteBank.Cliente;
+﻿using ByteBank;
+using ByteBank.Cliente;
 using ByteBank.Conta;
+using ByteBank.Exceptions;
 
+#region
 /*Corrente contaDoAndre = new Corrente();
 contaDoAndre.titular = "André Silva";
 contaDoAndre.numeroAgencia = 15;
@@ -72,11 +75,55 @@ Console.WriteLine(conta.GetSaldo());
 Console.WriteLine(conta.NumeroAgencia);
 Console.WriteLine(conta.Conta);*/
 
-Corrente conta1 = new Corrente(283, "1234-X");
+/*Corrente conta1 = new Corrente(283, "1234-X");
 Console.WriteLine(Corrente.TotalDeContasCriadas);
 
 Corrente conta2 = new Corrente(284, "9874-Z");
 Console.WriteLine(Corrente.TotalDeContasCriadas);
 
 Corrente conta3 = new Corrente(285, "1111-Z");
-Console.WriteLine(Corrente.TotalDeContasCriadas);
+Console.WriteLine(Corrente.TotalDeContasCriadas);*/
+#endregion
+
+#region
+/*
+try
+{
+    Corrente corrente = new Corrente(0, "1234-X");
+    *//*
+        corrente.Sacar(50);
+        Console.WriteLine(corrente.GetSaldo());
+        corrente.Sacar(150);
+        Console.WriteLine(corrente.GetSaldo());
+    *//*
+}
+catch (ArgumentException e)
+{
+    Console.WriteLine("Não é possível criar uma conta com o número de agência menor ou igual a zero!");
+    Console.WriteLine(e.Message);
+    Console.WriteLine(e.ParamName);
+    Console.WriteLine(e.StackTrace);
+}
+catch (SaldoInsuficienteException e)
+{
+    Console.WriteLine("Operação negada! Saldo insuficient!");
+    Console.WriteLine(e.Message);
+}
+*/
+#endregion
+
+LeitorDeArquivo leitor = new LeitorDeArquivo("das.txt");
+
+try
+{
+    leitor.LerProximaLinha();
+    leitor.LerProximaLinha();
+}
+catch (IOException e)
+{
+    Console.WriteLine("Leitura de arquivo interrompida!");
+}
+finally
+{
+    leitor.Dispose();
+}
