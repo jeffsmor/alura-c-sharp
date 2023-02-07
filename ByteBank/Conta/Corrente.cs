@@ -8,7 +8,7 @@ using ByteBank.Exceptions;
 
 namespace ByteBank.Conta
 {
-    public class Corrente
+    public class Corrente: IComparable<Corrente>
     {
         public static int TotalDeContasCriadas { get; private set; }
 
@@ -33,6 +33,7 @@ namespace ByteBank.Conta
         {
             this.NumeroAgencia = numeroAgencia;
             this.Conta = conta;
+            this.Titular = new Titular();
 
             if (this.numeroAgencia <= 0)
             {
@@ -108,6 +109,29 @@ namespace ByteBank.Conta
         public double GetSaldo()
         {
             return this.saldo;
+        }
+
+        public int CompareTo(Corrente? outro)
+        {
+            if (outro == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return this.numeroAgencia.CompareTo(outro.numeroAgencia);
+            }
+        }
+
+        public override string ToString()
+        {
+            return $" === DADOS DA CONTA === \n" +
+                            $"Número da Conta : {this.Conta} \n" +
+                            $"Número da Agência : {this.numeroAgencia} \n" +
+                            $"Saldo da Conta: {this.GetSaldo()} \n" +
+                            $"Titular da Conta: {this.Titular.Nome} \n" +
+                            $"CPF do Titular  : {this.Titular.Cpf} \n" +
+                            $"Profissão do Titular: {this.Titular.Profissao}\n\n";
         }
     }
 }
