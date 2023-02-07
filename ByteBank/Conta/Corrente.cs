@@ -8,7 +8,7 @@ using ByteBank.Exceptions;
 
 namespace ByteBank.Conta
 {
-    public class Corrente: IComparable<Corrente>
+    public class Corrente : IComparable<Corrente>
     {
         public static int TotalDeContasCriadas { get; private set; }
 
@@ -27,7 +27,7 @@ namespace ByteBank.Conta
 
         public string? Conta { get; set; }
         public Titular? Titular { get; set; }
-        private double saldo = 100;
+        public double Saldo { get; set; }
 
         public Corrente(int numeroAgencia, string conta)
         {
@@ -52,16 +52,39 @@ namespace ByteBank.Conta
             TotalDeContasCriadas++;
         }
 
+        public Corrente(int numeroAgencia)
+        {
+            this.NumeroAgencia = numeroAgencia;
+            this.Conta = Guid.NewGuid().ToString().Substring(0, 8);
+            this.Titular = new Titular();
+
+            if (this.numeroAgencia <= 0)
+            {
+                throw new ArgumentException("Número de agência menor ou igual a zero!", nameof(this.numeroAgencia));
+            }
+
+            /*try
+            {
+                TaxaOperacao = 30 / TotalDeContasCriadas;
+            }
+            catch (DivideByZeroException e)
+            {
+                Console.WriteLine($"Ocorreu um erro! Não é possível fazer uma divisão por zero! {e.Message}");
+            }*/
+
+            TotalDeContasCriadas++;
+        }
+
         public void Depositar(double valor)
         {
-            saldo += valor;
+            Saldo += valor;
         }
 
         public bool Sacar(double valor)
         {
-            if (valor <= saldo)
+            if (valor <= Saldo)
             {
-                saldo -= valor;
+                Saldo -= valor;
 
                 return true;
             }
@@ -73,7 +96,7 @@ namespace ByteBank.Conta
 
         public bool Tranferir(double valor, Corrente destino)
         {
-            if (saldo < valor)
+            if (Saldo < valor)
             {
                 return false;
             }
@@ -91,7 +114,7 @@ namespace ByteBank.Conta
             Console.WriteLine("Titular:" + this.Titular?.Nome);
             Console.WriteLine("Conta:" + this.Conta);
             Console.WriteLine("Número da agência:" + this.numeroAgencia);
-            Console.WriteLine("Saldo:" + this.saldo);
+            Console.WriteLine("Saldo:" + this.Saldo);
         }
 
         public void SetSaldo(double valor)
@@ -102,13 +125,13 @@ namespace ByteBank.Conta
             }
             else
             {
-                this.saldo = valor;
+                this.Saldo = valor;
             }
         }
 
         public double GetSaldo()
         {
-            return this.saldo;
+            return this.Saldo;
         }
 
         public int CompareTo(Corrente? outro)
